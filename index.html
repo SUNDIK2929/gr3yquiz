@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>gr3yquiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+        }
+        .container {
+            width: 80%;
+            max-width: 500px;
+            margin: 50px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #1e81b0;
+        }
+        button {
+            background: #1e81b0;
+            color: white;
+            border: none;
+            padding: 10px;
+            margin-top: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #156591;
+        }
+        .option-btn {
+            display: block;
+            width: 100%;
+            margin: 5px 0;
+            padding: 10px;
+            border: none;
+            background: #1e81b0;
+            color: white;
+            cursor: pointer;
+        }
+        #quiz-container {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Tela inicial -->
+    <div class="container" id="home-container">
+        <h1>gr3yquiz</h1>
+        <p>Tes Pengetahuan MLBB Kamu! Kamu harus menjawab semua pertanyaan dengan benar agar menang.</p>
+        <button onclick="startQuiz()">Mulai Quiz</button>
+    </div>
+
+    <!-- Quiz -->
+    <div class="container" id="quiz-container">
+        <h1>gr3yquiz</h1>
+        <p id="question"></p>
+        <div id="options"></div>
+        <p id="score">Score: 0</p>
+    </div>
+
+    <script>
+        const questions = [
+            { question: "Apa Nama Skill 1 Khufra?", options: ["Bouncing Ball", "Tyrants Revenge", "Tyrants Rage"], answer: "Tyrants Revenge" },
+            { question: "Apa Nama Skill 2 Minotaur?", options: ["Motivation Roar", "Despair Stomp ", "Minoan Fury"], answer: "Motivation Roar" },
+            { question: "Tahun berapa MLBB rilis?", options: ["2016", "2017", "2015"], answer: "2016" },
+            { question: "Apa nama Skill Ultimate Khaleed?", options: ["Quicksand Guard", "Desert Tornado", "Raging Sandstrom"], answer: "Raging Sandstrom" },
+            { question: "Berapa Cooldown Skill Ultimate Khufra", options: ["15s-10s", "50s-40s", "10s"], answer: "50s-40s" },
+            { question: "Khufra adalah Prmimpin Pasukan?", options: ["Minoa", "Arnak", "Elsora"], answer: "Arnak" },
+            { question: "Developer MLBB adalah?", options: ["Moonton", "Garena", "Tencent"], answer: "Moonton" }
+            
+        ];
+
+        let questionIndex = 0;
+        let score = 0;
+
+        function startQuiz() {
+            document.getElementById("home-container").style.display = "none";
+            document.getElementById("quiz-container").style.display = "block";
+            questionIndex = 0;
+            score = 0;
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            if (questionIndex >= questions.length) {
+                alert(`Selamattt! kamu telah menyelesaikan quiz dengan skor sempurna ${score}/7!`);
+                location.reload();
+                return;
+            }
+
+            let q = questions[questionIndex];
+            document.getElementById("question").innerText = q.question;
+            const optionsContainer = document.getElementById("options");
+            optionsContainer.innerHTML = "";
+
+            q.options.forEach(opt => {
+                let btn = document.createElement("button");
+                btn.innerText = opt;
+                btn.classList.add("option-btn");
+                btn.onclick = () => checkAnswer(opt, q.answer);
+                optionsContainer.appendChild(btn);
+            });
+
+            document.getElementById("score").innerText = `Score: ${score}`;
+        }
+
+        function checkAnswer(selected, correct) {
+            if (selected === correct) {
+                score++;
+                questionIndex++;
+                loadQuestion();
+            } else {
+                alert(`Jawaban kamu salah wkwk! Skor kamu ${score}/7. NT COBA LAGIII.`);
+                location.reload();
+            }
+        }
+    </script>
+
+</body>
+</html>
